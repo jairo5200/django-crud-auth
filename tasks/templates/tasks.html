@@ -4,4 +4,29 @@
 
 <h1>tasks</h1>
 
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>description</th>
+        <th>Creation date</th>
+        <th>Important</th>
+        <th>Author</th>
+        <th>Options</th>
+    </tr>
+{% for task in tasks %}
+    <tr>
+        {% if task.important %}
+        <td style="color: red;">{{ task.title }}</td>
+        {% else %}
+        <td>{{ task.title }}</td>
+        {% endif %}
+        <td>{{ task.description }}</td>
+        <td>{{ task.created_at }}</td>
+        <td>{{ task.important }}</td>
+        <td>{{ task.user.username }}</td>
+        <td><a href="{% url 'task_detail' task.id %}">See details</a></td>
+    </tr>
+{% endfor %}
+</table>
 {% endblock %}
