@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container">
+    <section class="hero mt-2">
+        <h1 class="text-center">tasks completed</h1>
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>description</th>
+                <th>Creation date</th>
+                <th>Complete date</th>
+                <th>Important</th>
+                <th>Author</th>
+            </tr>
+        {% for task in tasks %}
+            <tr>
+                {% if task.important %}
+                <td style="color: red;">{{ task.title }}</td>
+                {% else %}
+                <td>{{ task.title }}</td>
+                {% endif %}
+                <td>{{ task.description }}</td>
+                <td>{{ task.created_at }}</td>
+                <td>{{ task.date_completed }}</td>
+                <td>{{ task.important }}</td>
+                <td>{{ task.user.username }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </section>
+</main>
+
+{% endblock %}

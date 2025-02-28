@@ -1,27 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{task.title}}</h1>
 
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-
-    <button>Update</button>
-</form>
-
-<form action="{% url 'complete_task' task.id %}" method="POST">
-    {% csrf_token %}
-    <button>
-        Complete
-    </button>
-</form>
-
-<form action="{% url 'delete_task' task.id %}" method="POST">
-    {% csrf_token %}
-    <button>
-        Delete
-    </button>
-</form>
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 mt-3">
+            <h1 class="text-center">{{task.title}}</h1>
+            <form method="POST" class="card card-body">
+                {% csrf_token %}
+                {{form}}
+                <button class="btn btn-primary">Update</button>
+            </form>
+            <form action="{% url 'complete_task' task.id %}" method="POST" class="card card-body">
+                {% csrf_token %}
+                <button class="btn btn-success">
+                    Complete
+                </button>
+            </form>
+            <form action="{% url 'delete_task' task.id %}" method="POST" class="card card-body">
+                {% csrf_token %}
+                <button class="btn btn-danger">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
 
 {% endblock %}

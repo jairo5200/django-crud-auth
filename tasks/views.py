@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout,authenticate
 from .forms import TaskForm
 from .models import Task
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -33,12 +34,18 @@ def signup(request):
             'form':UserCreationForm(),
             'error':'Passwords do not match'
         })
-    
+
+@login_required    
 def tasks(request):
-    if request.user.is_authenticated:
-        tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
-        return render(request,'tasks.html',{'tasks':tasks})
-    
+    tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
+    return render(request,'tasks.html',{'tasks':tasks})
+
+@login_required
+def tasks_completed(request):
+    tasks = Task.objects.filter(user=request.user, date_completed__isnull=False).order_by('-date_completed')
+    return render(request,'tasks_completed.html',{'tasks':tasks})
+
+@login_required
 def task_detail(request,task_id):
     if request.method == 'GET':
         task = get_object_or_404(Task ,pk=task_id, user=request.user)
@@ -61,6 +68,7 @@ def task_detail(request,task_id):
             'error':'Error updating task'
             })
 
+@login_required
 def complete_task(request,task_id):
     if request.method == 'POST':
         task = get_object_or_404(Task ,pk=task_id, user=request.user)
@@ -68,6 +76,7 @@ def complete_task(request,task_id):
         task.save()
         return redirect('tasks')
 
+@login_required
 def delete_task(request,task_id):
     if request.method == 'POST':
         task = get_object_or_404(Task ,pk=task_id, user=request.user)
@@ -75,7 +84,7 @@ def delete_task(request,task_id):
         return redirect('tasks')
     
     
-
+@login_required
 def create_task(request):
     try:
         if request.method == 'POST':
@@ -100,6 +109,7 @@ def create_task(request):
 def signout(request):
     logout(request)
     return redirect('home')
+
 
 def signin(request):
     if request.method == 'GET':

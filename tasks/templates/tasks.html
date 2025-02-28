@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<h1>tasks</h1>
-
-
+<main class="container">
+    <section class="hero is-fullheight mt-2">
+        <h1 class="text-center">tasks</h1>
 <table class="table">
     <tr>
         <th>Title</th>
@@ -25,8 +25,10 @@
         <td>{{ task.created_at }}</td>
         <td>{{ task.important }}</td>
         <td>{{ task.user.username }}</td>
-        <td><a href="{% url 'task_detail' task.id %}">See details</a></td>
+        <td><a class="btn btn-primary" href="{% url 'task_detail' task.id %}">See details</a></td>
     </tr>
 {% endfor %}
 </table>
+    </section>
+</main>
 {% endblock %}
